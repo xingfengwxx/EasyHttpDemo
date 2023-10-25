@@ -5,7 +5,7 @@ import android.util.Log
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallbackProxy
 import com.wangxingxing.easyhttpdemo.databinding.ActivityMainBinding
-import com.wangxingxing.easyhttpdemo.http.api.ArticleListApi
+import com.wangxingxing.easyhttpdemo.http.api.BannerApi
 import com.wangxingxing.easyhttpdemo.http.model.HttpData
 
 
@@ -28,21 +28,21 @@ class MainActivity : BaseActivity() {
 
     private fun getBannerData() {
 
-        EasyHttp.get(this)
-            .api(ArticleListApi().setPageNumber(1))
-            .request(object : HttpCallbackProxy<HttpData<List<ArticleListApi.Bean>>>(this) {
-                override fun onHttpSuccess(result: HttpData<List<ArticleListApi.Bean>>?) {
-                    Log.i(TAG, "onHttpSuccess: 请求文章列表成功")
-                }
-            })
-        
 //        EasyHttp.get(this)
-//            .api(BannerApi::class.java)
-//            .request(object : HttpCallbackProxy<HttpData<List<BannerApi.Bean>>>(this) {
-//                override fun onHttpSuccess(result: HttpData<List<BannerApi.Bean>>?) {
-//                    Log.i(TAG, "onHttpSuccess: 获取banner数据成功：index=0, desc: " + result?.getData()?.get(0)?.desc)
+//            .api(ArticleListApi().setPageNumber(1))
+//            .request(object : HttpCallbackProxy<HttpData<List<ArticleListApi.Bean>>>(this) {
+//                override fun onHttpSuccess(result: HttpData<List<ArticleListApi.Bean>>?) {
+//                    Log.i(TAG, "onHttpSuccess: 请求文章列表成功")
 //                }
 //            })
+        
+        EasyHttp.get(this)
+            .api(BannerApi::class.java)
+            .request(object : HttpCallbackProxy<HttpData<List<BannerApi.Bean>>>(this) {
+                override fun onHttpSuccess(result: HttpData<List<BannerApi.Bean>>?) {
+                    Log.i(TAG, "onHttpSuccess: 获取banner数据成功：index=0, desc: " + result?.getData()?.get(0)?.desc)
+                }
+            })
         
 //        EasyHttp.get(this)
 //            .api(SearchAuthorApi().setId(190000))
