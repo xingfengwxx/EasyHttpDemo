@@ -49,14 +49,14 @@ class RequestHandler(application: Application) : IRequestHandler {
             throw ResponseException(
                 String.format(
                     mApplication.getString(R.string.http_response_error),
-                    response.code(), response.message()
+                    response.code, response.message
                 ), response
             )
         }
         if (Headers::class.java == type) {
-            return response.headers()
+            return response.headers
         }
-        val body = response.body()
+        val body = response.body
             ?: throw NullBodyException(mApplication.getString(R.string.http_response_null_body))
         if (ResponseBody::class.java == type) {
             return body
@@ -94,7 +94,7 @@ class RequestHandler(application: Application) : IRequestHandler {
             throw DataException(mApplication.getString(R.string.http_data_explain_error), e)
         }
         if (result is HttpData<*>) {
-            result.setResponseHeaders(response.headers())
+            result.setResponseHeaders(response.headers)
             if (result.isRequestSuccess()) {
                 // 代表执行成功
                 return result
@@ -143,7 +143,7 @@ class RequestHandler(application: Application) : IRequestHandler {
                 e.setMessage(
                     String.format(
                         mApplication.getString(R.string.http_response_error),
-                        response.code(), response.message()
+                        response.code, response.message
                     )
                 )
                 return e

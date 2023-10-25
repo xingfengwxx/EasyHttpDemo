@@ -65,10 +65,10 @@ dependencies {
     implementation 'com.github.getActivity:EasyHttp:12.5'
     // OkHttp 框架：https://github.com/square/okhttp
     // noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.13'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
     // logging-interceptor
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.13'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     // 吐司框架：https://github.com/getActivity/Toaster
     implementation 'com.github.getActivity:Toaster:12.3'

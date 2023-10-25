@@ -49,8 +49,8 @@ class HeaderInterceptor : Interceptor {
         val actionName = getActionName(originalRequest)
 
         // 获取原始请求的参数
-        val originalHttpUrl = originalRequest.url()
-        val parameterNames = originalHttpUrl.queryParameterNames()
+        val originalHttpUrl = originalRequest.url
+        val parameterNames = originalHttpUrl.queryParameterNames
         val sortedParameterNames = parameterNames.sorted()
 
         val signStr = StringBuilder()
@@ -83,7 +83,7 @@ class HeaderInterceptor : Interceptor {
     private fun getActionName(request: Request): String {
         // 解析请求的 URL 或请求体，提取出动作名
         var actionName = ""
-        val url = request.url().toString()
+        val url = request.url.toString()
         val pathSegments = url.split(Const.BASE_URL)
         if (pathSegments.size == 2) {
             actionName = pathSegments[1]

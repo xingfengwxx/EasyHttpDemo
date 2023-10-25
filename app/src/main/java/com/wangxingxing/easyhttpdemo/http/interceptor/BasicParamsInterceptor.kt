@@ -16,14 +16,14 @@ class BasicParamsInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
-        val originalHttpUrl = originalRequest.url()
+        val originalHttpUrl = originalRequest.url
         val url = originalHttpUrl.newBuilder().apply {
             // TODO: 使用甜瓜工具包名测试，上线时替换
 //            addQueryParameter(Const.Param.KEY_GAME_PACKAGE_NAME, AppUtils.getAppPackageName())
             addQueryParameter(Const.Param.KEY_GAME_PACKAGE_NAME, Const.TEST_PACKAGE_NAME)
         }.build()
         val request = originalRequest.newBuilder().url(url)
-            .method(originalRequest.method(), originalRequest.body()).build()
+            .method(originalRequest.method, originalRequest.body).build()
         return chain.proceed(request)
     }
 }
