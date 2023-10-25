@@ -75,8 +75,7 @@ class RequestHandler(application: Application) : IRequestHandler {
         if (Bitmap::class.java == type) {
             return BitmapFactory.decodeStream(body.byteStream())
         }
-        val text: String
-        text = try {
+        val text: String = try {
             body.string()
         } catch (e: IOException) {
             // 返回结果读取异常
@@ -88,25 +87,23 @@ class RequestHandler(application: Application) : IRequestHandler {
         if (String::class.java == type) {
             return text
         }
-        val result: Any
-        result = try {
+        val result: Any = try {
             GsonFactory.getSingletonGson().fromJson<Any>(text, type)
         } catch (e: JsonSyntaxException) {
             // 返回结果读取异常
             throw DataException(mApplication.getString(R.string.http_data_explain_error), e)
         }
         if (result is HttpData<*>) {
-            val model = result
-            model.setResponseHeaders(response.headers())
-            if (model.isRequestSuccess()) {
+            result.setResponseHeaders(response.headers())
+            if (result.isRequestSuccess()) {
                 // 代表执行成功
                 return result
             }
-            if (model.isTokenInvalidation()) {
+            if (result.isTokenInvalidation()) {
                 // 代表登录失效，需要重新登录
                 throw TokenException(mApplication.getString(R.string.http_token_error))
             }
-            throw ResultException(model.getMessage(), model)
+            throw ResultException(result.getMessage(), result)
         }
         return result
     }
@@ -140,26 +137,27 @@ class RequestHandler(application: Application) : IRequestHandler {
     }
 
     override fun downloadFail(httpRequest: HttpRequest<*>, e: Exception): Exception {
-        if (e is ResponseException) {
-            val responseException = e
-            val response = responseException.response
-            responseException.setMessage(
-                String.format(
-                    mApplication.getString(R.string.http_response_error),
-                    response.code(), response.message()
+        when (e) {
+            is ResponseException -> {
+                val response = e.response
+                e.setMessage(
+                    String.format(
+                        mApplication.getString(R.string.http_response_error),
+                        response.code(), response.message()
+                    )
                 )
-            )
-            return responseException
-        } else if (e is NullBodyException) {
-            val nullBodyException = e
-            nullBodyException.setMessage(mApplication.getString(R.string.http_response_null_body))
-            return nullBodyException
-        } else if (e is FileMd5Exception) {
-            val fileMd5Exception = e
-            fileMd5Exception.setMessage(mApplication.getString(R.string.http_response_md5_error))
-            return fileMd5Exception
+                return e
+            }
+            is NullBodyException -> {
+                e.setMessage(mApplication.getString(R.string.http_response_null_body))
+                return e
+            }
+            is FileMd5Exception -> {
+                e.setMessage(mApplication.getString(R.string.http_response_md5_error))
+                return e
+            }
+            else -> return requestFail(httpRequest, e)
         }
-        return requestFail(httpRequest, e)
     }
 
     override fun readCache(httpRequest: HttpRequest<*>, type: Type, cacheTime: Long): Any? {
