@@ -8,7 +8,9 @@ import com.hjq.http.listener.HttpCallbackProxy
 import com.wangxingxing.easyhttpdemo.base.BaseActivity
 import com.wangxingxing.easyhttpdemo.databinding.ActivityMainBinding
 import com.wangxingxing.easyhttpdemo.http.api.BannerApi
+import com.wangxingxing.easyhttpdemo.http.api.ConfigApi
 import com.wangxingxing.easyhttpdemo.http.model.HttpData
+import com.wangxingxing.easyhttpdemo.utils.LogUtils
 
 
 class MainActivity : BaseActivity() {
@@ -36,6 +38,10 @@ class MainActivity : BaseActivity() {
 
         binding.btnRequestInViewModel.setOnClickListener {
             viewModel.getHotKey()
+        }
+
+        binding.btnRequestAddInterceptor.setOnClickListener {
+            getConfig()
         }
     }
 
@@ -70,6 +76,16 @@ class MainActivity : BaseActivity() {
 //                    Log.i(TAG, "onHttpSuccess: Get请求成功")
 //                }
 //            })
+    }
+
+    private fun getConfig() {
+        EasyHttp.post(this)
+            .api(ConfigApi::class.java)
+            .request(object : HttpCallbackProxy<HttpData<ConfigApi.Bean>>(this) {
+                override fun onHttpSuccess(result: HttpData<ConfigApi.Bean>?) {
+                    LogUtils.i(TAG, "请求接口成功：${result?.getData()?.shareContent}")
+                }
+            })
     }
 
 

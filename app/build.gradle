@@ -58,11 +58,17 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
     //    implementation "androidx.lifecycle:lifecycle-extensions:2.4.0"
 
+    // AndroidUtilCode https://github.com/Blankj/AndroidUtilCode
+    implementation 'com.blankj:utilcodex:1.31.1'
+
     // 网络请求框架：https://github.com/getActivity/EasyHttp
     implementation 'com.github.getActivity:EasyHttp:12.5'
     // OkHttp 框架：https://github.com/square/okhttp
     // noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.12.13'
+
+    // logging-interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.13'
 
     // 吐司框架：https://github.com/getActivity/Toaster
     implementation 'com.github.getActivity:Toaster:12.3'
