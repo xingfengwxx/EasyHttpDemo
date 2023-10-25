@@ -1,9 +1,10 @@
-package com.wangxingxing.easyhttpdemo
+package com.wangxingxing.easyhttpdemo.base
 
 import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.hjq.http.listener.OnHttpListener
 import com.hjq.toast.Toaster
+import com.wangxingxing.easyhttpdemo.R
 import okhttp3.Call
 
 /**

@@ -9,6 +9,7 @@ import okhttp3.Headers
  * description :
  */
 open class HttpData<T> {
+
     /** 响应头  */
     private var responseHeaders: Headers? = null
 
@@ -20,6 +21,7 @@ open class HttpData<T> {
 
     /** 数据  */
     private val data: T? = null
+
     fun setResponseHeaders(responseHeaders: Headers?) {
         this.responseHeaders = responseHeaders
     }

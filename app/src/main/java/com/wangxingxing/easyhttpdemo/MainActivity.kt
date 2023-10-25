@@ -2,8 +2,10 @@ package com.wangxingxing.easyhttpdemo
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallbackProxy
+import com.wangxingxing.easyhttpdemo.base.BaseActivity
 import com.wangxingxing.easyhttpdemo.databinding.ActivityMainBinding
 import com.wangxingxing.easyhttpdemo.http.api.BannerApi
 import com.wangxingxing.easyhttpdemo.http.model.HttpData
@@ -17,12 +19,29 @@ class MainActivity : BaseActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        initView()
+        initObserver()
+    }
+
+    private fun initView() {
         binding.btnRequest.setOnClickListener {
             getBannerData()
+        }
+
+        binding.btnRequestInViewModel.setOnClickListener {
+            viewModel.getHotKey()
+        }
+    }
+
+    private fun initObserver() {
+        viewModel.hotKeyListLiveData.observe(this) {
+            Log.i(TAG, "initObserver: hot key list size=${it.size}")
         }
     }
 
@@ -52,4 +71,6 @@ class MainActivity : BaseActivity() {
 //                }
 //            })
     }
+
+
 }
