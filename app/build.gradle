@@ -34,6 +34,26 @@ android {
     viewBinding {
         enabled = true
     }
+
+    applicationVariants.all { variant ->
+        // apk 输出文件名配置
+        variant.outputs.all { output ->
+
+            // 解决 INSTALL_FAILED_TEST_ONLY安装失败的问题
+            output.processManifest.doLast {
+                String manifestPath = "${buildDir}/intermediates/merged_manifests/${variant.name}/AndroidManifest.xml"
+                def manifestContent = file(manifestPath).getText('UTF-8')
+                manifestContent = manifestContent.replaceAll("android:testOnly=\"true\"", "android:testOnly=\"false\"")
+                file(manifestPath).write(manifestContent, 'UTF-8')
+            }
+
+            outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + variant.buildType.name
+            if (variant.buildType.name == buildTypes.release.getName()) {
+                outputFileName += '_' + new Date().format('yyMMdd-HHmmss')
+            }
+            outputFileName += '.apk'
+        }
+    }
 }
 
 dependencies {
